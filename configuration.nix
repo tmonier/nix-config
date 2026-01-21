@@ -73,10 +73,6 @@ programs.zsh.enable = true;
     layout = "us";
     variant = "";
   };
- services.emacs = {
-   enable = true;
-   defaultEditor = true;
-  };
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
@@ -130,12 +126,11 @@ programs.zsh.enable = true;
     ripgrep
     fastfetch
     htop
-    emacs
-    emacsPackages.doom
     nerd-fonts.jetbrains-mono
     zsh
     curl
     spotify
+    heroic
   ];
 
 
