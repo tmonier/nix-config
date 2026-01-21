@@ -135,6 +135,7 @@ programs.zsh.enable = true;
     nerd-fonts.jetbrains-mono
     zsh
     curl
+    spotify
   ];
 
 
