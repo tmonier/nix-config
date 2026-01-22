@@ -1,17 +1,17 @@
-{ config, pkgs, ... }:
+{ config, pkgs, inputs, ... }:
 
 {
   imports =
     [ 
       ./hardware-configuration.nix
+      inputs.home-manager.nixosModules.default
     ];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-
-  networking.hostName = "nixos"; 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  networking.hostName = "nixos"; 
   networking.networkmanager.enable = true;
 
   time.timeZone = "America/Chicago";
@@ -30,7 +30,19 @@
     LC_TIME = "en_US.UTF-8";
   };
 
-  services.xserver.enable = true;
+services.xserver = {
+    enable = true;
+
+    windowManager.i3 = {
+      enable = true;
+      extraPackages = with pkgs; [
+        dmenu #application launcher most people use
+        i3status # gives you the default i3 status bar
+        i3lock #default i3 screen locker
+	i3blocks
+     ];
+    };
+  };
 
   services.displayManager.ly.enable = true;
   services.desktopManager.plasma6.enable = true;
@@ -76,6 +88,13 @@ programs.zsh.enable = true;
     ];
   };
 
+ home-manager = {
+	extraSpecialArgs = { inherit inputs; };
+	users = {
+		"tmonier" = import ./home.nix;
+   };
+ };
+
   programs.firefox.enable = true;
 
   nixpkgs.config.allowUnfree = true;
@@ -106,6 +125,12 @@ programs.zsh.enable = true;
     curl
     spotify
     heroic
+    networkmanagerapplet
+    picom
+    redshift
+    xwallpaper
+    pa_applet
+    cbatticon
   ];
 
 
